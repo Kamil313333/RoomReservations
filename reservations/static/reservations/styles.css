@@ -66,7 +66,7 @@ header .nav-link:hover {
 
 /* Background Image for Main Container */
 .background-image {
-    background: url("{% static 'reservations/images/hotel.jpg' %}") no-repeat center center;
+    background: url("/static/reservations/images/hotel.jpg") no-repeat center center;
     background-size: cover;
     height: 100vh;
     display: flex;

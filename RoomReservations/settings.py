@@ -93,7 +93,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length': 6,  # Możesz zmniejszyć minimalną długość hasła
+            'min_length': 8,
         }
     },
     {
@@ -101,6 +101,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+    {
+        'NAME': 'reservations.validators.CustomPasswordValidator',  # Poprawne odwołanie do niestandardowego walidatora
     },
 ]
 

@@ -162,12 +162,77 @@ a:hover {
 }
 
 /* Room Image Styles */
-.room-image {
-    width: 80%; /* Zmniejsza obraz do 50% szerokości kontenera */
-    height: auto;
+.welcome-container {
+    padding: 40px;
+    background-color: #f8f9fa;
     border-radius: 8px;
-    margin-bottom: 15px;
-    display: block; /* Umożliwia centrowanie obrazu */
-    margin-left: auto; /* Centrowanie obrazu */
-    margin-right: auto; /* Centrowanie obrazu */
+}
+
+.welcome-header {
+    margin-bottom: 30px;
+}
+
+.welcome-header h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.quick-links {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.quick-link {
+    display: flex;
+    align-items: center;
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.quick-link i {
+    margin-right: 10px;
+}
+
+.quick-link:hover {
+    background-color: #0056b3;
+}
+
+.widgets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.widget {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.widget h3 {
+    margin-top: 0;
+}
+
+.widget p {
+    margin-bottom: 10px;
+}
+
+.widget .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.widget .btn:hover {
+    background-color: #218838;
 }

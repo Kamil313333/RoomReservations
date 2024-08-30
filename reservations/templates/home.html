@@ -1,5 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Welcome, {{ user.username }}!</h2>
+<div class="welcome-container">
+    <div class="welcome-header">
+        <h2>Welcome back, {{ user.username }}!</h2>
+        <p>Last login: {{ user.last_login|date:"F j, Y, g:i a" }}</p>
+    </div>
+
+    <div class="quick-links">
+        <a href="{% url 'room_list' %}" class="quick-link">
+            <i class="fas fa-bed"></i> View Available Rooms
+        </a>
+        <a href="{% url 'reservation_list' %}" class="quick-link">
+            <i class="fas fa-calendar-alt"></i> My Reservations
+        </a>
+        <!-- Usuń lub zastąp ten link, jeśli nie masz widoku profilu -->
+    </div>
+
+    <div class="widgets">
+        <div class="widget">
+            <h3>Upcoming Reservation</h3>
+            <p>You have no upcoming reservations. <a href="{% url 'room_list' %}">Book now</a></p>
+        </div>
+        <div class="widget">
+            <h3>Latest Offers</h3>
+            <p>Check out our latest offers and discounts for loyal customers.</p>
+            <a href="#" class="btn btn-primary">View Offers</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

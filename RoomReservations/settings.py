@@ -136,3 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home'  # Przekierowanie po zalogowaniu na stronę główną
 LOGOUT_REDIRECT_URL = 'login'  # Przekierowanie po wylogowaniu na stronę logowania
+
+# Ścieżka do folderu media
+MEDIA_URL = '/room_images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'room_images')

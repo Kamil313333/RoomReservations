@@ -1,5 +1,6 @@
 # reservations/urls.py
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
@@ -13,4 +14,5 @@ urlpatterns = [
     path('reservations/', views.reservation_list, name='reservation_list'),
     path('contact/', views.contact, name='contact'),
     path('logout/', views.logout_view, name='logout'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

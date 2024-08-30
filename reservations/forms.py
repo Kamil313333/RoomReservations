@@ -13,7 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].label = 'Nazwa użytkownika'
+        self.fields['username'].label = 'Username'
         self.fields['username'].widget.attrs.update({'class': 'form-control'})
         self.fields['password1'].widget.attrs.update({'class': 'form-control', 'minlength': '8'})
         self.fields['password2'].widget.attrs.update({'class': 'form-control'})

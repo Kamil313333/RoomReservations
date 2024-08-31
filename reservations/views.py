@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Room, Reservation
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ReservationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.utils import timezone
 
 
 @login_required
@@ -52,3 +53,29 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def book_room(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+    if request.method == 'POST':
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            reservation.user = request.user
+            reservation.room = room
+            reservation.save()
+            return redirect('reservation_list')
+    else:
+        form = ReservationForm()
+    return render(request, 'book_room.html', {'room': room, 'form': form})
+
+@login_required
+def reservation_list(request):
+    # Aktualizacja statusu rezerwacji przed wyświetleniem listy
+    current_time = timezone.now()
+    expired_reservations = Reservation.objects.filter(check_out__lt=current_time, status='active')
+    expired_reservations.update(status='expired')
+    
+    # Pobranie zaktualizowanych rezerwacji użytkownika
+    reservations = Reservation.objects.filter(user=request.user)
+    return render(request, 'reservation_list.html', {'reservations': reservations})

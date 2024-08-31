@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Room(models.Model):
     room_number = models.CharField(max_length=10, unique=True)
@@ -13,11 +14,24 @@ class Room(models.Model):
         return f"Room {self.room_number}"
 
 class Reservation(models.Model):
+    STATUS_CHOICES = (
+        ('active', 'Active'),
+        ('expired', 'Expired'),
+        ('cancelled', 'Cancelled'),
+    )
+    
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     check_in = models.DateTimeField()
     check_out = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')  # Nowe pole statusu
+
+    def save(self, *args, **kwargs):
+        # Automatyczne sprawdzenie statusu rezerwacji przed zapisaniem
+        if self.check_out < timezone.now() and self.status == 'active':
+            self.status = 'expired'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Reservation for {self.room} by {self.user}"

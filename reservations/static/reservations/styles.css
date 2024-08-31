@@ -118,6 +118,15 @@ a:hover {
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 100%; /* Zapewnia, że karta nie przekroczy swojej kolumny */
+}
+
+.room-card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Zapobiega rozciąganiu obrazów */
+    border-radius: 8px;
+    margin-bottom: 15px;
 }
 
 .room-card:hover {
@@ -161,26 +170,37 @@ a:hover {
     background: #0056b3;
 }
 
-/* Room Image Styles */
+/* Welcome Container Styles */
 .welcome-container {
     padding: 40px;
     background-color: #f8f9fa;
     border-radius: 8px;
+    margin-top: 50px; /* Oddalenie od nagłówka */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .welcome-header {
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .welcome-header h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin: 0;
+    color: #007bff;
 }
 
+.welcome-header p {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Quick Links */
 .quick-links {
     display: flex;
     justify-content: space-around;
     margin-bottom: 30px;
+    gap: 20px;
 }
 
 .quick-link {
@@ -191,7 +211,9 @@ a:hover {
     padding: 15px 20px;
     border-radius: 8px;
     text-decoration: none;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 100%; /* Zapewnienie, że linki zajmują tę samą przestrzeń */
+    text-align: center;
 }
 
 .quick-link i {
@@ -200,11 +222,13 @@ a:hover {
 
 .quick-link:hover {
     background-color: #0056b3;
+    transform: translateY(-3px);
 }
 
+/* Widgets Styles */
 .widgets {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
@@ -213,14 +237,24 @@ a:hover {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.widget:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .widget h3 {
-    margin-top: 0;
+    font-size: 1.8rem;
+    color: #333;
 }
 
 .widget p {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 1rem;
 }
 
 .widget .btn {
@@ -233,6 +267,23 @@ a:hover {
     transition: background-color 0.3s;
 }
 
+.widget .btn-primary {
+    background-color: #007bff;
+}
+
+.widget .btn-secondary {
+    background-color: #ffc107;
+    color: #333;
+}
+
 .widget .btn:hover {
     background-color: #218838;
+}
+
+.widget .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.widget .btn-secondary:hover {
+    background-color: #e0a800;
 }

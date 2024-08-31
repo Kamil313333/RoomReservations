@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .validators import CustomPasswordValidator, validate_username, validate_email
+from .models import Reservation
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, validators=[validate_email])
@@ -26,3 +27,11 @@ class CustomUserCreationForm(UserCreationForm):
         password = self.cleaned_data.get('password1')
         CustomPasswordValidator().validate(password)  # Używamy klasy walidatora
         return password
+    
+class ReservationForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ['check_in', 'check_out']
+
+    check_in = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))
+    check_out = forms.DateTimeField(widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}))    

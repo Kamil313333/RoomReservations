@@ -14,18 +14,28 @@
         <a href="{% url 'reservation_list' %}" class="quick-link">
             <i class="fas fa-calendar-alt"></i> My Reservations
         </a>
-        <!-- Usuń lub zastąp ten link, jeśli nie masz widoku profilu -->
     </div>
 
     <div class="widgets">
         <div class="widget">
             <h3>Upcoming Reservation</h3>
-            <p>You have no upcoming reservations. <a href="{% url 'room_list' %}">Book now</a></p>
+            {% if upcoming_reservation %}
+                <p>Your next reservation is on {{ upcoming_reservation.date|date:"F j, Y" }}.</p>
+                <p>Room: {{ upcoming_reservation.room.room_number }}</p>
+                <a href="{% url 'reservation_list' %}" class="btn btn-primary">View Details</a>
+            {% else %}
+                <p>You have no upcoming reservations. <a href="{% url 'room_list' %}">Book now</a></p>
+            {% endif %}
         </div>
         <div class="widget">
             <h3>Latest Offers</h3>
             <p>Check out our latest offers and discounts for loyal customers.</p>
             <a href="#" class="btn btn-primary">View Offers</a>
+        </div>
+        <div class="widget">
+            <h3>Recent Activities</h3>
+            <p>See your recent booking activities and updates.</p>
+            <a href="#" class="btn btn-secondary">View Activities</a>
         </div>
     </div>
 </div>

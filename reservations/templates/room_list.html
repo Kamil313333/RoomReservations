@@ -10,15 +10,15 @@
             <img src="{{ room.image.url }}" alt="Room {{ room.room_number }}" class="room-image">
             {% endif %}
             <h2>Room {{ room.room_number }}</h2>
-            <p>{{ room.description }}</p
+            <p>{{ room.description }}</p>
             <p>Capacity: {{ room.capacity }}</p>
             <p>Price per night: ${{ room.price_per_night }}</p>
             {% if room.is_available %}
             <p class="available">Available</p>
+            <a href="{% url 'book_room' room.id %}" class="btn btn-primary">Book Now</a>
             {% else %}
             <p class="not-available">Not Available</p>
             {% endif %}
-            <a href="#" class="btn">Book Now</a>
         </div>
         {% endfor %}
     </div>

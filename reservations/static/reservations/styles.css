@@ -68,12 +68,14 @@ header .nav-link:hover {
 .background-image {
     background: url("/static/reservations/images/hotel.jpg") no-repeat center center;
     background-size: cover;
-    height: 100vh;
+    min-height: 100vh; /* Zmiana z height na min-height */
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column; /* Dodane, jeśli masz kilka sekcji i chcesz, aby były one w kolumnie */
 }
 
+/* Content Wrapper */
 .background-image .content {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 20px;
@@ -81,7 +83,7 @@ header .nav-link:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 1200px;
-    margin: 20px auto; /* Add margin to center the content */
+    margin: 20px auto; /* Wyrównanie zawartości */
 }
 
 /* Link Styles */
@@ -286,4 +288,24 @@ a:hover {
 
 .widget .btn-secondary:hover {
     background-color: #e0a800;
+}
+
+/* Dodatkowa seksja w home*/
+.additional-section {
+    background-color: #a29d17; /* Kolor tła, możesz dostosować */
+    padding: 60px 0; /* Dostosuj wysokość sekcji */
+}
+
+.additional-section h2 {
+    margin-bottom: 20px;
+}
+
+.additional-section p {
+    margin-bottom: 40px;
+}
+
+/* Gallery Images */
+.gallery-section .img-fluid {
+    height: 200px; /* Ustaw wysokość, dopasuj według potrzeby */
+    object-fit: cover; /* Przytnij obrazy, aby wypełniły wysokość bez deformacji */
 }

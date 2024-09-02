@@ -1,42 +1,104 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="welcome-container">
-    <div class="welcome-header">
-        <h2>Welcome back, {{ user.username }}!</h2>
-        <p>Last login: {{ user.last_login|date:"F j, Y, g:i a" }}</p>
-    </div>
+<div class="home-container">
+    <!-- Sekcja powitalna z dużym obrazem w tle -->
+        <div class="hero-content d-flex align-items-center justify-content-center" style="height: 100%;">
+            <div>
+                <h1 class="display-4">Welcome to Our Hotel</h1>
+                <p class="lead">Experience luxury and comfort in the heart of the city.</p>
+                <a href="{% url 'room_list' %}" class="btn btn-primary btn-lg mt-3">Explore Our Rooms</a>
+            </div>
+        </div>
+    </section>
 
-    <div class="quick-links">
-        <a href="{% url 'room_list' %}" class="quick-link">
-            <i class="fas fa-bed"></i> View Available Rooms
-        </a>
-        <a href="{% url 'reservation_list' %}" class="quick-link">
-            <i class="fas fa-calendar-alt"></i> My Reservations
-        </a>
-    </div>
+    <!-- Sekcja o hotelu -->
+    <section class="about-section py-5 text-center">
+        <div class="container">
+            <h2 class="mb-4">About Us</h2>
+            <p class="lead">Our hotel offers the best in hospitality and service. With a range of rooms to suit every need, we provide a perfect blend of comfort and luxury.</p>
+            <a href="{% url 'contact' %}" class="btn btn-outline-primary mt-3">Contact Us</a>
+        </div>
+    </section>
 
-    <div class="widgets">
-        <div class="widget">
-            <h3>Upcoming Reservation</h3>
-            {% if upcoming_reservation %}
-                <p>Your next reservation is on {{ upcoming_reservation.date|date:"F j, Y" }}.</p>
-                <p>Room: {{ upcoming_reservation.room.room_number }}</p>
-                <a href="{% url 'reservation_list' %}" class="btn btn-primary">View Details</a>
-            {% else %}
-                <p>You have no upcoming reservations. <a href="{% url 'room_list' %}">Book now</a></p>
-            {% endif %}
+    <!-- Galeria zdjęć -->
+    <section class="gallery-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Gallery</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="room_images/room1.jpg" class="img-fluid mb-3" alt="Room 1">
+                </div>
+                <div class="col-md-4">
+                    <img src="room_images/room2.jpg" class="img-fluid mb-3" alt="Room 2">
+                </div>
+                <div class="col-md-4">
+                    <img src="room_images/room3.jpg" class="img-fluid mb-3" alt="Room 3">
+                </div>
+            </div>
         </div>
-        <div class="widget">
-            <h3>Latest Offers</h3>
-            <p>Check out our latest offers and discounts for loyal customers.</p>
-            <a href="#" class="btn btn-primary">View Offers</a>
+    </section>
+
+    <!-- Opinie klientów -->
+    <section class="testimonials-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">What Our Guests Say</h2>
+            <div id="testimonialsCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <blockquote class="blockquote text-center">
+                            <p class="mb-4">"A wonderful stay! The room was immaculate, and the staff was incredibly helpful."</p>
+                            <footer class="blockquote-footer">John Doe</footer>
+                        </blockquote>
+                    </div>
+                    <div class="carousel-item">
+                        <blockquote class="blockquote text-center">
+                            <p class="mb-4">"The location is perfect, and the amenities are top-notch. I will definitely be back!"</p>
+                            <footer class="blockquote-footer">Jane Smith</footer>
+                        </blockquote>
+                    </div>
+                    <div class="carousel-item">
+                        <blockquote class="blockquote text-center">
+                            <p class="mb-4">"An unforgettable experience. The service was exceptional, and the room was beautiful."</p>
+                            <footer class="blockquote-footer">Emily Johnson</footer>
+                        </blockquote>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#testimonialsCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#testimonialsCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
         </div>
-        <div class="widget">
-            <h3>Recent Activities</h3>
-            <p>See your recent booking activities and updates.</p>
-            <a href="#" class="btn btn-secondary">View Activities</a>
+    </section>
+
+    <!-- Najnowsze oferty -->
+    <section class="offers-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-4">Latest Offers</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Weekend Getaway</h5>
+                            <p class="card-text">Enjoy a luxurious weekend stay at our hotel with a 20% discount.</p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Family Package</h5>
+                            <p class="card-text">Book a family room and get free breakfast for the entire family.</p>
+                            <a href="#" class="btn btn-primary">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 {% endblock %}

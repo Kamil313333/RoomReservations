@@ -1,6 +1,60 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Contact Us</h1>
-<p>For inquiries, please email us at contact@hotelreservations.com.</p>
+<div class="contact-container py-5">
+    <div class="container">
+        <h1 class="text-center mb-4">Contact Us</h1>
+        
+        <div class="row">
+            <!-- Kontakt -->
+            <div class="col-md-6 mb-4">
+                <h2>Get in Touch</h2>
+                <p>If you have any questions or need assistance, please reach out to us using the contact information below or fill out the form. We will get back to you as soon as possible.</p>
+                
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-envelope"></i> Email: <a href="mailto:contact@hotelreservations.com">contact@hotelreservations.com</a></li>
+                    <li><i class="fas fa-phone"></i> Phone: +1 234 567 890</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Address: 123 Hotel Street, City, Country</li>
+                </ul>
+                
+                <h3 class="mt-4">Follow Us</h3>
+                <ul class="list-unstyled d-flex">
+                    <li><a href="#" class="btn btn-social btn-facebook"><i class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="#" class="btn btn-social btn-twitter"><i class="fab fa-twitter"></i></a></li>
+                    <li><a href="#" class="btn btn-social btn-instagram"><i class="fab fa-instagram"></i></a></li>
+                </ul>
+            </div>
+            
+            <!-- Formularz Kontaktowy -->
+            <div class="col-md-6">
+                <h2>Contact Form</h2>
+                <form action="{% url 'contact_form' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Mapa -->
+        <div class="mt-5">
+            <h2 class="text-center">Find Us</h2>
+            <div class="map-container">
+                <!-- Wstaw kod do osadzenia mapy tutaj -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.038889929383!2d-122.41941598468122!3d37.77492977975954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085806c1e4f3401%3A0x6f5bfe6c3c8a1dc6!2sHotel%20Reservations!5e0!3m2!1sen!2sus!4v1609459204502!5m2!1sen!2sus" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

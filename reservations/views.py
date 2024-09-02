@@ -5,6 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
+from .forms import ContactForm
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib import messages
 
 
 @login_required
@@ -79,3 +83,26 @@ def reservation_list(request):
     # Pobranie zaktualizowanych rezerwacji użytkownika
     reservations = Reservation.objects.filter(user=request.user)
     return render(request, 'reservation_list.html', {'reservations': reservations})
+
+def contact_form(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            
+            # Możesz wysłać e-mail lub zapisać dane do bazy
+            send_mail(
+                f"Contact Form Submission from {name}",
+                message,
+                email,
+                [settings.DEFAULT_FROM_EMAIL],
+                fail_silently=False,
+            )
+            
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('contact')  # Przekierowuje na stronę kontaktową po udanym wysłaniu
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})

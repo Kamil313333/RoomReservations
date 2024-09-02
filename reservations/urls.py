@@ -17,5 +17,6 @@ urlpatterns = [
     path('rooms/', views.room_list, name='room_list'),
     path('rooms/<int:room_id>/book/', views.book_room, name='book_room'),
     path('reservations/', views.reservation_list, name='reservation_list'),
+    path('contact/', views.contact_form, name='contact_form'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

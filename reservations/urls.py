@@ -18,5 +18,9 @@ urlpatterns = [
     path('rooms/<int:room_id>/book/', views.book_room, name='book_room'),
     path('reservations/', views.reservation_list, name='reservation_list'),
     path('contact/', views.contact_form, name='contact_form'),
+    path('available_rooms/', views.available_rooms, name='available_rooms'),
+    path('room/<int:room_id>/', views.room_detail, name='room_detail'),
+    path('room/add/', views.add_room, name='add_room'),
+    path('room/<int:room_id>/edit/', views.edit_room, name='edit_room'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

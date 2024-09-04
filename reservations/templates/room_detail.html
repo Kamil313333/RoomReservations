@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Room {{ room.room_number }}</h1>
+    {% if room.image %}
+        <img src="{{ room.image.url }}" alt="Room Image" class="img-fluid">
+    {% endif %}
+    <p><strong>Capacity:</strong> {{ room.capacity }}</p>
+    <p><strong>Price per night:</strong> ${{ room.price_per_night }}</p>
+    <p>{{ room.description }}</p>
+    {% if room.is_available %}
+        <p class="text-success">This room is available for booking.</p>
+    {% else %}
+        <p class="text-danger">This room is not available at the moment.</p>
+    {% endif %}
+    <a href="{% url 'book_room' room.id %}?check_in={{ check_in }}&check_out={{ check_out }}" class="btn btn-primary">Book Now</a>
+</div>
+{% endblock %}

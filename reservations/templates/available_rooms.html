@@ -2,20 +2,21 @@
 
 {% block content %}
 <div class="container">
-    <h1>Rooms</h1>
+    <h1>Available Rooms</h1>
     <div class="room-grid">
         {% for room in rooms %}
         <div class="room-card">
             {% if room.image %}
             <img src="{{ room.image.url }}" alt="Room {{ room.room_number }}" class="room-image">
             {% endif %}
-            <h2><a href="{% url 'room_detail' room.id %}">Room {{ room.room_number }}</a></h2>
+            <h2>Room {{ room.room_number }}</h2>
             <p>{{ room.description }}</p>
             <p>Capacity: {{ room.capacity }}</p>
             <p>Price per night: ${{ room.price_per_night }}</p>
             {% if room.is_available %}
             <p class="available">Available</p>
-            <h2><a href="{% url 'room_detail' room.id %}?check_in={{ check_in }}&check_out={{ check_out }}">Room {{ room.room_number }}</a></h2>
+            <!-- Przyciski z przekazanymi datami -->
+            <a href="{% url 'book_room' room.id %}?check_in={{ check_in|date:'Y-m-d' }}&check_out={{ check_out|date:'Y-m-d' }}" class="btn btn-primary">Book Now</a>
             {% else %}
             <p class="not-available">Not Available</p>
             {% endif %}

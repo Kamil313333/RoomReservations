@@ -56,7 +56,7 @@ ROOT_URLCONF = 'RoomReservations.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'reservations/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

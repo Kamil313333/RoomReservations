@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Room {{ room.room_number }}</h1>
     {% if room.image %}
-        <img src="{{ room.image.url }}" alt="Room Image" class="img-fluid">
+        <img src="{{ room.image.url }}" alt="Room Image" class="img-fluid room-detail-image">
     {% endif %}
     <p><strong>Capacity:</strong> {{ room.capacity }}</p>
     <p><strong>Price per night:</strong> ${{ room.price_per_night }}</p>

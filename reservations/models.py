@@ -14,7 +14,7 @@ class Room(models.Model):
 
     # Dodajemy brakujące pola
     bed_type = models.CharField(max_length=50, blank=True, choices=[('Single', 'Single'), ('Double', 'Double'), ('Queen', 'Queen'), ('King', 'King')])
-    size = models.IntegerField(help_text="Size of the room in square meters", blank=True, null=True)
+    size = models.IntegerField(help_text="Size of the room in square meters", blank=True, null=True, default=0)
     view = models.CharField(max_length=100, blank=True, choices=[('Sea', 'Sea'), ('Mountain', 'Mountain'), ('City', 'City')])
     amenities = models.TextField(help_text="List of amenities separated by commas", blank=True)
 

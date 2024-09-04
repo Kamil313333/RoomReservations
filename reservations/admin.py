@@ -5,9 +5,9 @@ from .models import Room, Reservation
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
     list_display = ('room_number', 'capacity', 'is_available', 'price_per_night', 'image_preview')
-    list_filter = ('is_available', 'capacity', 'price_per_night')  # Filtry według dostępności, pojemności i ceny
-    search_fields = ('room_number', 'description')  # Wyszukiwanie według numeru pokoju i opisu
-    readonly_fields = ('image_preview',)  # Pole do podglądu obrazu tylko do odczytu
+    list_filter = ('is_available', 'capacity', 'price_per_night')
+    search_fields = ('room_number', 'description')
+    readonly_fields = ('image_preview',)
     
     def image_preview(self, obj):
         if obj.image:
@@ -15,14 +15,16 @@ class RoomAdmin(admin.ModelAdmin):
         return "No Image"
     image_preview.short_description = 'Image Preview'
     
-    # Dodanie linku do strony szczegółów pokoju bezpośrednio z panelu admina
     def view_on_site(self, obj):
         return obj.get_absolute_url()
     
-    # Dodanie opcji edycji z panelu admina
     fieldsets = (
         (None, {
             'fields': ('room_number', 'capacity', 'is_available', 'price_per_night', 'description', 'image')
+        }),
+        ('Additional Information', {
+            'fields': ('bed_type', 'size', 'view', 'amenities'),
+            'classes': ('collapse',),
         }),
     )
 

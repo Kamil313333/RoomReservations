@@ -9,11 +9,21 @@
     <p><strong>Capacity:</strong> {{ room.capacity }}</p>
     <p><strong>Price per night:</strong> ${{ room.price_per_night }}</p>
     <p>{{ room.description }}</p>
+    
     {% if room.is_available %}
         <p class="text-success">This room is available for booking.</p>
+        <!-- Formularz do wyboru dat -->
+        <form method="get" action="{% url 'book_room' room.id %}">
+            <label for="check_in">Check-in date:</label>
+            <input type="date" id="check_in" name="check_in" required>
+            
+            <label for="check_out">Check-out date:</label>
+            <input type="date" id="check_out" name="check_out" required>
+            
+            <button type="submit" class="btn btn-primary">Book Now</button>
+        </form>
     {% else %}
         <p class="text-danger">This room is not available at the moment.</p>
     {% endif %}
-    <a href="{% url 'book_room' room.id %}?check_in={{ check_in }}&check_out={{ check_out }}" class="btn btn-primary">Book Now</a>
 </div>
 {% endblock %}

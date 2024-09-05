@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'reservations',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,18 @@ LOGOUT_REDIRECT_URL = 'login'  # Przekierowanie po wylogowaniu na stronę logowa
 # Ścieżka do folderu media
 MEDIA_URL = '/room_images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'room_images')
+
+
+# Logowanie przez media spolecznosciowe
+# Wprowadź tutaj swoje dane klienta i sekrety dla różnych usług
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'your-google-client-id'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'your-google-client-secret'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2', 
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Konfiguracja social-auth-app-django
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+

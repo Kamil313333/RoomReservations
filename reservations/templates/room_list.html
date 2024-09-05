@@ -15,7 +15,8 @@
             <p><strong>Price per night:</strong> ${{ room.price_per_night }}</p>
             {% if room.is_available %}
             <p class="available">Available</p>
-            <a href="{% url 'book_room' room.id %}?check_in={{ check_in|date:'Y-m-d' }}&check_out={{ check_out|date:'Y-m-d' }}" class="btn btn-primary">Book Now</a>
+            <!-- Przekierowanie do strony pokoju z opcją wyboru dat -->
+            <a href="{% url 'room_detail' room.id %}" class="btn btn-primary">Book Now</a>
             {% else %}
             <p class="not-available">Not Available</p>
             {% endif %}

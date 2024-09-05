@@ -86,14 +86,21 @@ def book_room(request, room_id):
     check_in = request.GET.get('check_in')
     check_out = request.GET.get('check_out')
 
+    # Sprawdzanie, czy użytkownik podał daty
+    if not check_in or not check_out:
+        # Jeśli brak dat, przekieruj do strony szczegółów pokoju
+        return redirect('room_detail', room_id=room_id)
+
     if request.method == 'POST':
         # Konwersja daty na obiekt datetime
         check_in = datetime.strptime(check_in, '%Y-%m-%d')
         check_out = datetime.strptime(check_out, '%Y-%m-%d')
+
         # Przekształcenie na timezone-aware datetime
         check_in = timezone.make_aware(check_in, timezone.get_default_timezone())
         check_out = timezone.make_aware(check_out, timezone.get_default_timezone())
 
+        # Tworzenie rezerwacji
         reservation = Reservation.objects.create(
             room=room,
             user=request.user,
@@ -101,7 +108,7 @@ def book_room(request, room_id):
             check_out=check_out,
             status='active'
         )
-        return redirect('reservation_list')  # Przekierowanie do strony potwierdzenia
+        return redirect('reservation_list')  # Przekierowanie na stronę potwierdzenia rezerwacji
 
     return render(request, 'book_room.html', {
         'room': room,

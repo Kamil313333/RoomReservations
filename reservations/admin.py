@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 from .models import Room, Reservation
+import logging
+
+logger = logging.getLogger(__name__)
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
@@ -41,6 +44,5 @@ class ReservationAdmin(admin.ModelAdmin):
     duration.short_description = 'Duration (days)'
 
     def mark_as_cancelled(self, request, queryset):
-        # Niestandardowa akcja do masowego anulowania rezerwacji
-        queryset.update(status='cancelled')
-    mark_as_cancelled.short_description = 'Mark selected reservations as Cancelled'
+        count = queryset.update(status='cancelled')
+        logger.info("Admin %s cancelled %d reservations", request.user, count)

@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import datetime
 from django.urls import reverse
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Room(models.Model):
     room_number = models.CharField(max_length=10, unique=True)
@@ -39,12 +42,13 @@ class Reservation(models.Model):
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')  # Nowe pole statusu
 
     def save(self, *args, **kwargs):
-        # Upewnij się, że check_out jest datetime i porównaj je
+        logger.debug("Saving reservation: %s", self)
         if isinstance(self.check_out, str):
             self.check_out = timezone.make_aware(datetime.strptime(self.check_out, '%Y-%m-%d'), timezone.get_default_timezone())
 
         if self.check_out < timezone.now() and self.status == 'active':
             self.status = 'expired'
+            logger.info("Reservation expired: %s", self)
         super().save(*args, **kwargs)
 
     def __str__(self):

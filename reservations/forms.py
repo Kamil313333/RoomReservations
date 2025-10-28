@@ -3,6 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .validators import CustomPasswordValidator, validate_username, validate_email
 from .models import Reservation, Room
+import logging
+
+logger = logging.getLogger(__name__)
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, validators=[validate_email])
@@ -24,9 +27,10 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['email'].help_text = 'Enter a valid email address.'
 
     def clean_password1(self):
-        password = self.cleaned_data.get('password1')
-        CustomPasswordValidator().validate(password)  # Używamy klasy walidatora
-        return password
+        password1 = self.cleaned_data.get("password1")
+        if len(password1) < 8:
+            raise forms.ValidationError("Hasło musi mieć co najmniej 8 znaków.")
+        return password1
     
 class ReservationForm(forms.ModelForm):
     check_in = forms.DateField(

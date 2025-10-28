@@ -28,7 +28,7 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "unsafe-dev-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() in ("1", "true", "yes")
+DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() in ("1", "true", "yes")
 
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split(",")
@@ -145,3 +145,50 @@ LOGOUT_REDIRECT_URL = 'login'  # Przekierowanie po wylogowaniu na stronę logowa
 # Ścieżka do folderu media
 MEDIA_URL = '/room_images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'room_images')
+
+#Logi
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,  # pozwala Django utrzymać swoje loggery
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(name)s [%(filename)s:%(lineno)d] %(message)s"
+        },
+        "simple": {
+            "format": "%(levelname)s %(name)s: %(message)s"
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        # rotujący plik (np. zostawić 5 plików po 5MB)
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": os.path.join(BASE_DIR, "logs", "project.log"),
+            "maxBytes": 5*1024*1024,
+            "backupCount": 5,
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        # logger dla Twojej aplikacji
+        "reservations": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+        # root logger - ogólny
+        "": {
+            "handlers": ["console"],
+            "level": "WARNING",
+        },
+        # django logger
+        "django": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}

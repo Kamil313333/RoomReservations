@@ -12,7 +12,9 @@ from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render
 from datetime import datetime
+import logging
 
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -55,27 +57,28 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Zapisz użytkownika w bazie danych
-            login(request, user) # Automatyczne logowanie użytkownika po rejestracji
+            user = form.save()
+            logger.info("New user registered: %s", user.username)
+            login(request, user)
             return redirect('home')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
+        else:
+            logger.warning("Registration form invalid: %s", form.errors)
 
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(username=username, password=form.cleaned_data.get('password'))
             if user is not None:
                 login(request, user)
+                logger.info("User logged in: %s", username)
                 return redirect('home')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
-
+            else:
+                logger.warning("Failed login attempt for user: %s", username)
+        else:
+            logger.warning("Login form invalid: %s", form.errors)
+            
 def logout_view(request):
     logout(request)
     return redirect('login')
@@ -87,22 +90,31 @@ def book_room(request, room_id):
     check_out = request.GET.get('check_out')
 
     if request.method == 'POST':
-        # Konwersja daty na obiekt datetime
-        check_in = datetime.strptime(check_in, '%Y-%m-%d')
-        check_out = datetime.strptime(check_out, '%Y-%m-%d')
-        # Przekształcenie na timezone-aware datetime
-        check_in = timezone.make_aware(check_in, timezone.get_default_timezone())
-        check_out = timezone.make_aware(check_out, timezone.get_default_timezone())
+        try:
+            # Log informacyjny
+            logger.info("Użytkownik %s próbuje zarezerwować pokój %s od %s do %s", request.user, room.room_number, check_in, check_out)
 
-        reservation = Reservation.objects.create(
-            room=room,
-            user=request.user,
-            check_in=check_in,
-            check_out=check_out,
-            status='active'
-        )
-        return redirect('reservation_list')  # Przekierowanie do strony potwierdzenia
+            # Konwersja daty na datetime z timezone
+            check_in = datetime.strptime(check_in, '%Y-%m-%d')
+            check_out = datetime.strptime(check_out, '%Y-%m-%d')
+            check_in = timezone.make_aware(check_in, timezone.get_default_timezone())
+            check_out = timezone.make_aware(check_out, timezone.get_default_timezone())
 
+            # Zapis rezerwacji
+            reservation = Reservation.objects.create(
+                room=room,
+                user=request.user,
+                check_in=check_in,
+                check_out=check_out,
+                status='active'
+            )
+            logger.info("Rezerwacja %s została pomyślnie utworzona.", reservation.id)
+            return redirect('reservation_list')
+
+        except Exception as e:
+            logger.exception("Błąd podczas tworzenia rezerwacji dla użytkownika %s: %s", request.user, e)
+            messages.error(request, "Wystąpił błąd podczas rezerwacji. Spróbuj ponownie.")
+    
     return render(request, 'book_room.html', {
         'room': room,
         'check_in': check_in,
@@ -127,20 +139,29 @@ def contact_form(request):
             name = form.cleaned_data['name']
             email = form.cleaned_data['email']
             message = form.cleaned_data['message']
-            
-            # Możesz wysłać e-mail lub zapisać dane do bazy
-            send_mail(
-                f"Contact Form Submission from {name}",
-                message,
-                email,
-                [settings.DEFAULT_FROM_EMAIL],
-                fail_silently=False,
-            )
-            
-            messages.success(request, 'Your message has been sent successfully!')
-            return redirect('contact')  # Przekierowuje na stronę kontaktową po udanym wysłaniu
+
+            try:
+                # Logujemy próbę wysyłki
+                logger.info("Użytkownik %s (%s) wysyła wiadomość kontaktową.", name, email)
+                
+                send_mail(
+                    f"Contact Form Submission from {name}",
+                    message,
+                    email,
+                    [settings.DEFAULT_FROM_EMAIL],
+                    fail_silently=False,
+                )
+                
+                logger.info("Wiadomość od %s została wysłana pomyślnie.", email)
+                messages.success(request, 'Your message has been sent successfully!')
+                return redirect('contact')
+
+            except Exception as e:
+                logger.exception("Błąd podczas wysyłania wiadomości kontaktowej od %s: %s", email, e)
+                messages.error(request, "Nie udało się wysłać wiadomości. Spróbuj ponownie.")
     else:
         form = ContactForm()
+
     return render(request, 'contact.html', {'form': form})
 
 def available_rooms(request):

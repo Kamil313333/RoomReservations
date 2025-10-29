@@ -22,7 +22,8 @@ class Room(models.Model):
     amenities = models.TextField(help_text="List of amenities separated by commas", blank=True)
 
     def __str__(self):
-        return f"Room {self.room_number}"
+        status = "Available" if self.is_available else "Occupied"
+        return f"Room {self.room_number} ({status}, ${self.price_per_night})"
 
     def get_absolute_url(self):
         return reverse('room_detail', args=[str(self.id)])
@@ -52,4 +53,4 @@ class Reservation(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Reservation for {self.room} by {self.user}"
+        return f"Reservation: {self.room} by {self.user} from {self.check_in.date()} to {self.check_out.date()} ({self.status})"

@@ -63,6 +63,11 @@ def register(request):
             return redirect('home')
         else:
             logger.warning("Registration form invalid: %s", form.errors)
+            # zwracamy formularz z błędami, żeby użytkownik mógł poprawić
+            return render(request, 'register.html', {'form': form})
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
